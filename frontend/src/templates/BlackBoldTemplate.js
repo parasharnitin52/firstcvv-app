@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
 
 const BlackBoldTemplate = ({ data }) => {
     const { personalInfo, experience, education, skills, projects, certifications, customSections } = data;

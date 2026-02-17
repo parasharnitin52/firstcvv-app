@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
-import { ArrowLeft, Layout, Plus, Trash2, Edit3, Upload, DollarSign, Lock, Unlock, X } from 'lucide-react';
+import { ArrowLeft, Layout, Plus, Trash2, Edit3, Upload, Lock, Unlock, X } from 'lucide-react';
 
 const ManageTemplates = () => {
     const navigate = useNavigate();
