@@ -1,0 +1,8 @@
+/* for SPAs */
+/* react routing */
+/* fallback to index.html */
+/* on netlify/vercel */
+/* if using static file serving */
+/* but my vercel.json handles routing */
+/* so this might be redundant but good for netlify */
+/* /* /index.html 200 */

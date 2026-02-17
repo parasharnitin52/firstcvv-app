@@ -1,0 +1,8 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="60" fill="transparent"/>
+  <path d="M20 15C20 12.2386 22.2386 10 25 10H45C47.7614 10 50 12.2386 50 15V45C50 47.7614 47.7614 50 45 50H25C22.2386 50 20 47.7614 20 45V15Z" fill="#D4AF37"/>
+  <path d="M30 20H40V23H30V20Z" fill="white"/>
+  <path d="M30 28H40V31H30V28Z" fill="white"/>
+  <path d="M30 36H40V39H30V36Z" fill="white"/>
+  <text x="65" y="42" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="28" fill="white" style="letter-spacing: -1px;">FirstCV</text>
+</svg>
