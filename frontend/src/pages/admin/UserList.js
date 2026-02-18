@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
-import { ArrowLeft, Users, Trash2, FileText, Unlock, Search } from 'lucide-react';
+import { ArrowLeft, Users, Trash2, Search } from 'lucide-react';
 
 const UserList = () => {
     const navigate = useNavigate();
