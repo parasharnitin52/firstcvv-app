@@ -53,7 +53,7 @@ const AdminDashboard = () => {
                 <div className="container mx-auto px-6 py-4 flex justify-between items-center">
                     <div className="flex items-center gap-4">
                         <button onClick={() => navigate('/dashboard')} className="btn btn-outline text-sm">
-                            <Icons.ArrowLeft className="w-4 h-4" />
+                            <ArrowLeft className="w-4 h-4" />
                             Back
                         </button>
                         <div className="flex items-center gap-6">
@@ -106,7 +106,7 @@ const AdminDashboard = () => {
                     >
                         <div className="flex items-center gap-6">
                             <div className="bg-white/5 p-5 rounded-2xl group-hover:bg-[#D4AF37]/10 transition-colors">
-                                <Icons.Users className="w-10 h-10 text-white group-hover:text-[#D4AF37] transition-colors" />
+                                <Users className="w-10 h-10 text-white group-hover:text-[#D4AF37] transition-colors" />
                             </div>
                             <div>
                                 <h3 className="text-xl font-black uppercase tracking-widest text-white group-hover:text-[#D4AF37] transition-colors">
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
                     >
                         <div className="flex items-center gap-6">
                             <div className="bg-white/5 p-5 rounded-2xl group-hover:bg-[#D4AF37]/10 transition-colors">
-                                <Icons.Layout className="w-10 h-10 text-white group-hover:text-[#D4AF37] transition-colors" />
+                                <Layout className="w-10 h-10 text-white group-hover:text-[#D4AF37] transition-colors" />
                             </div>
                             <div>
                                 <h3 className="text-xl font-black uppercase tracking-widest text-white group-hover:text-[#D4AF37] transition-colors">

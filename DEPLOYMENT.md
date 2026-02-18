@@ -4,7 +4,7 @@
 
 ### Prerequisites
 - Node.js v16+ installed
-- MongoDB installed or MongoDB Atlas account
+- PostgreSQL installed or hosted database (e.g. Supabase, Railway, Vercel Postgres)
 - Git (optional)
 
 ### Step 1: Backend Setup
@@ -20,11 +20,8 @@ npm install
 cp .env.example .env
 
 # Edit .env with your settings
-# For local MongoDB: MONGODB_URI=mongodb://localhost:27017/firstcv
-# For MongoDB Atlas: Use your connection string
-
-# Start MongoDB locally (if using local)
-mongod
+# For local PostgreSQL: DB_HOST=localhost, DB_NAME=firstcv, etc.
+# For Production: Use your connection details
 
 # Start the backend server
 npm start
@@ -67,8 +64,11 @@ Frontend will open on http://localhost:3000
 4. Set root directory to `/backend`
 5. Add environment variables:
    ```
-   PORT=5000
-   MONGODB_URI=<your-mongodb-atlas-uri>
+    PORT=5000
+    DB_HOST=<your-db-host>
+    DB_NAME=<your-db-name>
+    DB_USER=<your-db-user>
+    DB_PASSWORD=<your-db-password>
    JWT_SECRET=<random-secure-string>
    NODE_ENV=production
    FRONTEND_URL=<your-vercel-url>
@@ -129,14 +129,6 @@ heroku login
 # Create new app
 heroku create firstcv-api
 
-# Add MongoDB addon (or use MongoDB Atlas)
-heroku addons:create mongolab:sandbox
-
-# Set environment variables
-heroku config:set JWT_SECRET=your_secret_here
-heroku config:set NODE_ENV=production
-heroku config:set FRONTEND_URL=https://your-netlify-url.netlify.app
-
 # Deploy
 git subtree push --prefix backend heroku main
 ```
@@ -156,15 +148,12 @@ git subtree push --prefix backend heroku main
 
 ---
 
-## MongoDB Atlas Setup (Recommended for Production)
+## PostgreSQL Setup (Recommended for Production)
 
-1. Sign up at https://www.mongodb.com/cloud/atlas
-2. Create a free cluster
-3. Create a database user
-4. Add your IP to whitelist (or use 0.0.0.0/0 for all)
-5. Get your connection string
-6. Replace `<password>` with your database user password
-7. Use this string as `MONGODB_URI` in your backend
+1. Sign up for a PostgreSQL provider (e.g., Supabase, Heroku Postgres, AWS RDS)
+2. Create a new database
+3. Get your connection credentials (Host, Database, User, Password, Port)
+4. Add these to your backend environment variables
 
 ---
 
@@ -173,7 +162,11 @@ git subtree push --prefix backend heroku main
 ### Backend (.env)
 ```
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/firstcv  # or Atlas URI
+DB_HOST=localhost
+DB_NAME=firstcv
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_PORT=5432
 JWT_SECRET=your_super_secret_jwt_key_here
 NODE_ENV=production
 FRONTEND_URL=https://your-frontend-url.com
@@ -203,9 +196,9 @@ REACT_APP_API_URL=https://your-backend-url.com/api
 - Check that frontend is using correct `REACT_APP_API_URL`
 
 ### Database Connection Failed
-- Verify MongoDB is running (local) or URI is correct (Atlas)
-- Check IP whitelist in MongoDB Atlas
-- Verify database user credentials
+- Verify PostgreSQL is running (local) or your credentials are correct
+- Check firewall settings/IP whitelisting if using a remote DB
+- Verify database user permissions
 
 ### JWT Errors
 - Ensure `JWT_SECRET` is set and same across deployments
@@ -247,7 +240,7 @@ REACT_APP_API_URL=https://your-backend-url.com/api
 - [ ] Use environment variables for all secrets
 - [ ] Enable HTTPS (automatic on most platforms)
 - [ ] Set proper CORS origins
-- [ ] Use MongoDB Atlas with strong password
+- [ ] Use PostgreSQL with strong password
 - [ ] Enable rate limiting for API endpoints
 - [ ] Keep dependencies updated
 - [ ] Use .gitignore to exclude sensitive files
