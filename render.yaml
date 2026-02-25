@@ -12,17 +12,15 @@ services:
         value: 5000
       - key: JWT_SECRET
         generateValue: true
-      - key: MONGODB_URI
+      - key: DB_HOST
         sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_PORT
+        value: 5432
       - key: FRONTEND_URL
-        sync: false
-
-  - type: static
-    name: firstcv-frontend
-    env: static
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    publishDir: build
-    envVars:
-      - key: REACT_APP_API_URL
         sync: false
