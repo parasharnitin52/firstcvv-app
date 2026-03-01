@@ -90,30 +90,49 @@ const PaymentModal = ({ template, onClose, onSuccess }) => {
                             ))}
                         </div>
 
-                        {/* Pay Button */}
+                        {/* QR Code Section */}
+                        <div className="flex flex-col items-center justify-center p-4 bg-white rounded-xl border-2 border-dashed border-gray-200 mb-6">
+                            <img
+                                src="/payment-qr.png"
+                                alt="Payment QR Code"
+                                className="w-48 h-48 object-contain mb-3"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = 'https://via.placeholder.com/200?text=QR+Code+Here';
+                                }}
+                            />
+                            <p className="text-sm text-gray-600 text-center font-medium">
+                                Scan to pay ₹{template.price}
+                            </p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                via any UPI app
+                            </p>
+                        </div>
+
+                        {/* Pay Button / Confimation */}
                         <button
                             onClick={handlePayment}
                             disabled={processing}
                             className={`w-full py-3.5 rounded-xl font-semibold text-white transition-all flex items-center justify-center gap-2 ${processing
-                                    ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5'
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5'
                                 }`}
                         >
                             {processing ? (
                                 <>
                                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                    Processing...
+                                    Verifying Payment...
                                 </>
                             ) : (
                                 <>
-                                    <CreditCard className="w-5 h-5" />
-                                    Pay ₹{template.price}
+                                    <CheckCircle className="w-5 h-5" />
+                                    I have completed the payment
                                 </>
                             )}
                         </button>
 
                         <p className="text-center text-xs text-gray-400 mt-4">
-                            🔒 Secure mock payment • No real charges
+                            🔒 Payment details are securely verified
                         </p>
                     </div>
                 )}

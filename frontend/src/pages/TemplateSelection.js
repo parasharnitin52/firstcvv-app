@@ -125,10 +125,25 @@ const TemplateSelection = () => {
 
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
 
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const imgProps = pdf.getImageProperties(imgData);
+            const calculatedPdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            let heightLeft = calculatedPdfHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedPdfHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft >= 0) {
+                position = heightLeft - calculatedPdfHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedPdfHeight);
+                heightLeft -= pageHeight;
+            }
+
             pdf.save(`${cvData.personalInfo.fullName || 'CV'}_${selectedTemplate}.pdf`);
         } catch (error) {
             console.error('Error generating PDF:', error);
@@ -192,8 +207,8 @@ const TemplateSelection = () => {
                                     key={template.id}
                                     onClick={() => handleSelectTemplate(template)}
                                     className={`cursor-pointer border-2 rounded-lg overflow-hidden transition-all relative ${selectedTemplate === template.id
-                                            ? 'border-primary-600 ring-2 ring-primary-100'
-                                            : 'border-gray-200 hover:border-primary-300'
+                                        ? 'border-primary-600 ring-2 ring-primary-100'
+                                        : 'border-gray-200 hover:border-primary-300'
                                         }`}
                                 >
                                     {/* Live Thumbnail */}
