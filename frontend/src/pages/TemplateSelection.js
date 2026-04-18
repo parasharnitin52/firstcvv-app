@@ -113,21 +113,45 @@ const TemplateSelection = () => {
         }
 
         setGenerating(true);
-        const cvElement = document.getElementById('cv-preview-container');
-        if (!cvElement) return;
+
+        // --- Off-screen render for accurate PDF capture ---
+        // We create a hidden container at exact A4 pixel width so html2canvas
+        // captures the real layout, not the CSS-scaled viewport version.
+        const TemplateComponent = TemplateMap[selectedTemplate] || ModernTemplate;
+
+        const offscreenWrapper = document.createElement('div');
+        offscreenWrapper.style.cssText = `
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+            width: 794px;
+            background: white;
+            z-index: -1;
+        `;
+        document.body.appendChild(offscreenWrapper);
+
+        // Render the React template into the off-screen div
+        const { createRoot } = await import('react-dom/client');
+        const root = createRoot(offscreenWrapper);
+        root.render(<TemplateComponent data={cvData} />);
+
+        // Give React one tick to finish rendering
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         try {
-            const canvas = await html2canvas(cvElement, {
+            const canvas = await html2canvas(offscreenWrapper, {
                 scale: 2,
                 useCORS: true,
-                logging: false
+                logging: false,
+                width: 794,
+                windowWidth: 794
             });
 
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
 
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
+            const pdfWidth = pdf.internal.pageSize.getWidth();   // 210mm
+            const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
             const imgProps = pdf.getImageProperties(imgData);
             const calculatedPdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
@@ -137,7 +161,7 @@ const TemplateSelection = () => {
             pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedPdfHeight);
             heightLeft -= pageHeight;
 
-            while (heightLeft >= 0) {
+            while (heightLeft > 0) {
                 position = heightLeft - calculatedPdfHeight;
                 pdf.addPage();
                 pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedPdfHeight);
@@ -147,8 +171,11 @@ const TemplateSelection = () => {
             pdf.save(`${cvData.personalInfo.fullName || 'CV'}_${selectedTemplate}.pdf`);
         } catch (error) {
             console.error('Error generating PDF:', error);
-            alert('Failed to generate PDF');
+            alert('Failed to generate PDF. Please try again.');
         } finally {
+            // Clean up the off-screen element
+            root.unmount();
+            document.body.removeChild(offscreenWrapper);
             setGenerating(false);
         }
     };

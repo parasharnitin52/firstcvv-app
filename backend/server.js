@@ -42,7 +42,7 @@ const connectDB = async () => {
     // Sync models
     // remove { force: true } in production, it drops tables!
     // using { alter: true } updates tables to match models
-    await sequelize.sync({ alter: true });
+    await sequelize.sync(); // removed alter:true to avoid slow cold starts on serverless
     console.log('✅ Database synchronized');
   } catch (error) {
     console.error('❌ Database connection error:', error);
