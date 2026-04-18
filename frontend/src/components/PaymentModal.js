@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Lock, CreditCard, CheckCircle, Sparkles } from 'lucide-react';
+import { X, Lock, CheckCircle, Sparkles } from 'lucide-react';
 
 const PaymentModal = ({ template, onClose, onSuccess }) => {
     const [processing, setProcessing] = useState(false);
